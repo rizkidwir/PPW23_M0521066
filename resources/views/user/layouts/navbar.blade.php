@@ -20,9 +20,21 @@
                         <a href="#" class="nav-item nav-link">About</a>
                         <a href="room" class="nav-item nav-link">room</a>
                         <a href="contact" class="nav-item nav-link">Contact</a>
-                    </div>
-                    <div class="border-start ps-4 d-none d-lg-block">
-                        <button type="button" class="btn btn-sm p-0"><i class="fa fa-search"></i></button>
+                        @auth
+                        <li class="nav-item nav-link dropdown">
+                            <a class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                              Welcome, {{ Auth::user()->name }}
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><form action="/logout" method="POST">
+                                    @csrf
+                                    <button typ="submit" class="dropdown-item" href="#"><i class="bi bi-box-arrow-right"></i>Logout</button>
+                                </form></li>
+                            </ul>
+                        </li>
+                        @else
+                        <a href="login" class="nav-item nav-link">Login</a>
+                        @endauth
                     </div>
                 </div>
             </nav>
