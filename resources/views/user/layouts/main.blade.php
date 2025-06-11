@@ -17,5 +17,4 @@
     <!-- Back to Top -->
     @include('user.layouts.scripts')
 </body>
-
 </html>

@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('suites', function (Blueprint $table) {
             $table->id();
-            $table->string('nokamar',10);
-            $table->string('namatamu',100);
+            $table->string('no_kamar',10)->unique();
             $table->enum('type', ['platinum', 'gold']);
-            $table->enum('status', ['empty', 'occupied']);
+            $table->string('nama_tamu',100);
+            $table->string('id_number',100);
+            $table->string('id_card')->nullable();
             $table->timestamps();
         });
     }

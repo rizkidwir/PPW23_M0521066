@@ -1,8 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-USE App\Http\Controllers\RoomsController;
-USE App\Http\Controllers\MessagesController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RoomsController;
+use App\Http\Controllers\SuiteController;
+use App\Http\Controllers\MessagesController;
+use App\Http\Controllers\RegisterController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +18,12 @@ USE App\Http\Controllers\MessagesController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/login', [LoginController::class,'index'])->name('login')->middleware('guest');
+Route::post('/login', [LoginController::class,'authenticate']);
+Route::get('/register', [RegisterController::class,'index']);
+Route::post('/register', [RegisterController::class,'store']);
+Route::post('/logout', [LoginController::class,'logout']);
+
 
 Route::get('/', function () {
     return view('user.welcome');
@@ -30,4 +40,18 @@ Route::get('/contact', function () {
 });
 
 Route::post('/create', [MessagesController::class,'add']);
+
+//Admin
+Route::middleware(['auth'])->group(function () {
+    Route::get('/addsuites', function() {
+    return view('admin.form');
+    })->middleware('userAkses:admin');
+    Route::post('/', [SuiteController::class,'add'])->name('addguest')->middleware('userAkses:admin');
+    Route::get('/showguest/{id}', [SuiteController::class,'showguest'])->name('showguest')->middleware('userAkses:admin');
+    Route::post('/showguest/{id}', [SuiteController::class,'updateguest'])->name('updateguest')->middleware('userAkses:admin');
+    Route::get('/deleteguest/{id}', [SuiteController::class,'deleteguest'])->name('deleteguest')->middleware('userAkses:admin');
+    Route::get('/helloadmin', [SuiteController::class,'showlist'])->middleware('userAkses:admin');
+});
+
+
 
